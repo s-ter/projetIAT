@@ -4,6 +4,7 @@ import math
 from pygame import mixer
 import numpy as np
 import os
+import time
 
 
 def getURL(filename):
@@ -54,22 +55,6 @@ class SpaceInvaders():
         self.playerImage = pygame.image.load(getURL('data/spaceship.png'))
         self.reset()
 
-        self.n_episodes = 100
-        self.max_steps = 50
-        self.gamma = 1
-        self.alpha = 0.001
-
-    def get_nEpisodes(self) -> int:
-        return self.n_episodes
-
-    def get_maxSteps(self) -> int:
-        return self.max_steps
-
-    def get_gamma(self) -> int:
-        return self.gamma
-
-    def get_alpha(self) -> int:
-        return self.alpha
 
     def get_player_X(self) -> int:
         return self.player_X
@@ -94,7 +79,10 @@ class SpaceInvaders():
         - rest = bullet is not moving
         - fire = bullet is moving
         """
-        return self.bullet_state
+        if self.bullet_state == "rest":
+            return 0
+        else :
+            return 1
 
     def full_image(self):
         return pygame.surfarray.array3d(self.screen)
@@ -104,11 +92,16 @@ class SpaceInvaders():
         Cette méthode doit renvoyer l'état du système comme vous aurez choisi de
         le représenter. Vous pouvez utiliser les accesseurs ci-dessus pour cela. 
         """
-        #return "L'état n'est pas implémenté (SpaceInvaders.get_state)"
-        #n_steps = np.zeros(self.n_episodes) + self.max_steps
-        #sum_rewards = np.zeros(self.n_episodes)  # total reward for each episode
+        ##idée : calculer la distance à l'alien et quantifié la plage de valeurs possible
+        xv, yv = self.get_player_X(), self.get_player_Y()
+        xa, ya = self.get_indavers_X(), self.get_indavers_Y()
+        distance = math.sqrt((xa[0]-xv)**2+(ya[0]-yv)**2)
+        dist_quant = distance // 50 
 
+        return (int(dist_quant), self.get_bullet_state())
 
+    def get_dim(self):
+        return (self.screen_width, self.screen_height, self.na)
 
     def reset(self):
         """Reset the game at the initial state.
@@ -191,7 +184,8 @@ class SpaceInvaders():
                     for j in range(SpaceInvaders.NO_INVADERS):
                         self.invader_Y[j] = 2000
                     is_done = True
-                    break
+                    self.game_over()
+                    pygame.quit()
                 
             if self.invader_X[i] >= 735 or self.invader_X[i] <= 0:
                 self.invader_Xchange[i] *= -1
