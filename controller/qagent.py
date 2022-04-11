@@ -20,6 +20,7 @@ class QAgent ():
         self.epsilon = self.eps_profile.initial
 
     def learn(self, env, n_episodes): 
+        scores = []
         # Execute N episodes (parties)
         for episode in range(n_episodes):
             state = env.reset()
@@ -39,7 +40,8 @@ class QAgent ():
                 else :
                     self.updateQ(state, action, 0, state)
                     print("J'ai perdu")
-            
+                    scores.append(score)
+        return (scores)
   
 
     def updateQ(self, state, action, reward, next_state):
