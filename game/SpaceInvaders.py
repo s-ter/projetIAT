@@ -20,7 +20,7 @@ def getURL(filename):
 
 class SpaceInvaders():
 
-    NO_INVADERS = 1 # Nombre d'aliens
+    NO_INVADERS = 8 # Nombre d'aliens
 
     
     def __init__(self, display : bool = False):
@@ -184,8 +184,8 @@ class SpaceInvaders():
                     for j in range(SpaceInvaders.NO_INVADERS):
                         self.invader_Y[j] = 2000
                     is_done = True
-                    self.game_over()
-                    pygame.quit()
+                    #self.game_over()
+                    #pygame.quit()
                 
             if self.invader_X[i] >= 735 or self.invader_X[i] <= 0:
                 self.invader_Xchange[i] *= -1
@@ -214,7 +214,7 @@ class SpaceInvaders():
         if self.display:
             self.render()
     
-        return self.get_state(), reward, is_done
+        return self.get_state(), reward, is_done, self.score_val
 
     def render(self):
         self.show_score(self.scoreX, self.scoreY)

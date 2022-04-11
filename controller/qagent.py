@@ -19,22 +19,28 @@ class QAgent ():
         self.eps_profile = eps_profile
         self.epsilon = self.eps_profile.initial
 
-    def learn(self, env, n_episodes, max_steps): 
-        n_steps = np.zeros(n_episodes) + max_steps
-        # Execute N episodes 
+    def learn(self, env, n_episodes): 
+        # Execute N episodes (parties)
         for episode in range(n_episodes):
             state = env.reset()
-            in_game = True
-            while in_game:
+            game_over = False
+            score = 0
+
+            while not game_over and score < 1000 :
                 # Selectionne une action 
                 action = self.select_action(state)
                 # Echantillonne l'état suivant et la récompense
-                next_state, reward, in_game = env.step(action)
-                # Mets à jour la fonction de valeur Q
-                self.updateQ(state, action, reward, next_state)
-                state = next_state
+                next_state, reward, game_over, score = env.step(action)
+                
+                if not game_over:
+                    # Mets à jour la fonction de valeur Q
+                    self.updateQ(state, action, reward, next_state)
+                    state = next_state
+                else :
+                    self.updateQ(state, action, 0, state)
+                    print("J'ai perdu")
             
-            n_steps[episode] = step + 1  
+  
 
     def updateQ(self, state, action, reward, next_state):
         #print(state)
