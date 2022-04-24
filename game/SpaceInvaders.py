@@ -98,7 +98,8 @@ class SpaceInvaders():
         xa, ya = self.get_indavers_X(), self.get_indavers_Y()
         distance = math.sqrt((xa[0]-xv)**2+(ya[0]-yv)**2)
         dist_quant = (distance // 50)-1 
-        print("Distance :" , int(dist_quant))
+        ##
+        # ("Distance :" , int(dist_quant))
         return (int(dist_quant), self.get_bullet_state())
 
     def get_dim(self):

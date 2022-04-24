@@ -15,9 +15,9 @@ def main():
     #param apprentissage 
 
     n_episodes = 20
-    gamma = 1
-    alpha = 0.01
-    eps_profile = EpsilonProfile(1.0, 1.0)
+    gamma = 0.5
+    alpha = 0.5
+    eps_profile = EpsilonProfile(1., 1.)
     
     ###Test sur l'apprentissage de l'agent, décommentez pour essayer le DL
     ##définition de l'agent
