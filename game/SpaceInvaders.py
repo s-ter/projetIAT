@@ -20,7 +20,7 @@ def getURL(filename):
 
 class SpaceInvaders():
 
-    NO_INVADERS = 8 # Nombre d'aliens
+    NO_INVADERS = 4 # Nombre d'aliens
 
     
     def __init__(self, display : bool = False):

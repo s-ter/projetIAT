@@ -14,7 +14,7 @@ def main():
     
     #param apprentissage 
 
-    n_episodes = 4
+    n_episodes = 20
     gamma = 1
     alpha = 0.001
     eps_profile = EpsilonProfile(1.0, 1.0)
@@ -24,9 +24,11 @@ def main():
     controller = QAgent(game, eps_profile, gamma, alpha)
 
     scores = controller.learn(game, n_episodes)
-    les_x=np.linspace(0, 200)
-    print (controller.Q)
+    les_x=[i+1 for i in range(n_episodes)]
+    print (scores, les_x)
     plt.plot(les_x, scores)
+    plt.xlabel("Nb de parties")
+    plt.ylabel("Score")
     plt.show()
 
     ###Test sur le jeu tout seul, décommentez si besoin de tester get_state()
