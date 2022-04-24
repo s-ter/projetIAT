@@ -7,8 +7,8 @@ class QAgent ():
     
     def __init__(self, game, eps_profile: EpsilonProfile, gamma: float, alpha: float):
         
-        quantif, feu, na = 20, 2, 4 #On a 20 plages de quantifications différentes, deux états possibles pour la balle et 4 actions possibles 
-        self.Q = np.zeros([quantif, feu, na])
+        quantif, pos, feu, na = 20, 2, 2, 4 #On a 20 plages de quantifications différentes pour la distance, deux états possibles pour la balle, deux états possibles pour la position relatives et 4 actions possibles 
+        self.Q = np.zeros([quantif, pos, feu, na])
         
         self.game = game
         self.na = na
@@ -32,6 +32,7 @@ class QAgent ():
                 action = self.select_action(state)
                 # Echantillonne l'état suivant et la récompense
                 next_state, reward, game_over, score = env.step(action)
+                print("Récompense :", reward)
                 
                 if not game_over:
                     # Mets à jour la fonction de valeur Q
@@ -45,13 +46,13 @@ class QAgent ():
   
 
     def updateQ(self, state, action, reward, next_state):
-        print(state)
+        #print(state)
         #print(action)
         self.Q[state][action] = (1. - self.alpha) * self.Q[state][action] + self.alpha * (reward + self.gamma * np.max(self.Q[next_state]))
     
     def select_action(self, state : "Tuple[int, int]"):
         ###On choisit une action entre une action d'exploration ou une action d'optimale selon un param. externe epsilon
-        
+        #print(self.epsilon)
         if np.random.rand()<self.epsilon:
             a = np.random.randint(self.na)      # random action
         else:

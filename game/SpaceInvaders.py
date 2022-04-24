@@ -96,10 +96,27 @@ class SpaceInvaders():
         ##idée : calculer la distance à l'alien et quantifié la plage de valeurs possible
         xv, yv = self.get_player_X(), self.get_player_Y()
         xa, ya = self.get_indavers_X(), self.get_indavers_Y()
-        distance = math.sqrt((xa[0]-xv)**2+(ya[0]-yv)**2)
-        dist_quant = (distance // 50)-1 
-        print("Distance :" , int(dist_quant))
-        return (int(dist_quant), self.get_bullet_state())
+        #=======================================================================
+        # print("Position joueur :", xv, yv)
+        # print("Position alien :", xa[0], ya[0])
+        #=======================================================================
+        distances = []
+        poids = []
+        
+        for i in range(SpaceInvaders.NO_INVADERS):
+            distance = math.sqrt((xa[i]-xv)**2+(ya[i]-yv)**2)
+            dist_quant = distance // 50
+            distances.append(int(dist_quant)) 
+            poids.append(1-(dist_quant/20))
+            
+        alien_to_kill = np.random.choice([i for i in range(SpaceInvaders.NO_INVADERS)], 1, poids)[0]#on choisit sur quel alien on tire à l'aide d'un tirage aléatoiré pondéré par la distance
+        
+        if xa[alien_to_kill]>= xv :
+            pos_relative = 1
+        else:
+            pos_relative = 0 
+        
+        return (distances[alien_to_kill], pos_relative, self.get_bullet_state())
 
     def get_dim(self):
         return (self.screen_width, self.screen_height, self.na)
@@ -121,7 +138,7 @@ class SpaceInvaders():
         self.invader_Ychange = []
         for _ in range(SpaceInvaders.NO_INVADERS):
             self.invaderImage.append(pygame.image.load(getURL('data/alien.png')))
-            self.invader_X.append(random.randint(64, 737))
+            self.invader_X.append(random.randint(64, 730))
             self.invader_Y.append(random.randint(30, 180))
             self.invader_Xchange.append(1.2)
             self.invader_Ychange.append(50)
@@ -198,7 +215,7 @@ class SpaceInvaders():
                 self.score_val += 1
                 self.bullet_Y = 600
                 self.bullet_state = "rest"
-                self.invader_X[i] = random.randint(64, 736)
+                self.invader_X[i] = random.randint(64, 730)
                 self.invader_Y[i] = random.randint(30, 200)
                 self.invader_Xchange[i] *= -1
     

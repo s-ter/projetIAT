@@ -14,10 +14,10 @@ def main():
     
     #param apprentissage 
 
-    n_episodes = 20
+    n_episodes = 50
     gamma = 1
     alpha = 0.01
-    eps_profile = EpsilonProfile(1.0, 1.0)
+    eps_profile = EpsilonProfile(0.25, 0.25)
     
     ###Test sur l'apprentissage de l'agent, décommentez pour essayer le DL
     ##définition de l'agent
@@ -25,7 +25,7 @@ def main():
 
     scores = controller.learn(game, n_episodes)
     les_x=[i+1 for i in range(n_episodes)]
-    plt.plot(les_x, scores)
+    plt.plot(les_x, scores, 'xb-')
     plt.xlabel("Nb de parties")
     plt.ylabel("Score")
     plt.show()
