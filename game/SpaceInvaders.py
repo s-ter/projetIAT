@@ -5,6 +5,7 @@ from pygame import mixer
 import numpy as np
 import os
 import time
+from math import dist
 
 
 def getURL(filename):
@@ -96,8 +97,8 @@ class SpaceInvaders():
         xv, yv = self.get_player_X(), self.get_player_Y()
         xa, ya = self.get_indavers_X(), self.get_indavers_Y()
         distance = math.sqrt((xa[0]-xv)**2+(ya[0]-yv)**2)
-        dist_quant = distance // 50 
-
+        dist_quant = (distance // 50)-1 
+        print("Distance :" , int(dist_quant))
         return (int(dist_quant), self.get_bullet_state())
 
     def get_dim(self):

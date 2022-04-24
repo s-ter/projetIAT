@@ -8,7 +8,7 @@ class QAgent ():
     def __init__(self, game, eps_profile: EpsilonProfile, gamma: float, alpha: float):
         
         quantif, feu, na = 20, 2, 4 #On a 20 plages de quantifications différentes, deux états possibles pour la balle et 4 actions possibles 
-        self.Q = np.zeros([20, 2, na])
+        self.Q = np.zeros([quantif, feu, na])
         
         self.game = game
         self.na = na
@@ -45,8 +45,8 @@ class QAgent ():
   
 
     def updateQ(self, state, action, reward, next_state):
-        #print(state)
-        #print(next_state)
+        print(state)
+        #print(action)
         self.Q[state][action] = (1. - self.alpha) * self.Q[state][action] + self.alpha * (reward + self.gamma * np.max(self.Q[next_state]))
     
     def select_action(self, state : "Tuple[int, int]"):
