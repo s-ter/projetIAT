@@ -96,6 +96,7 @@ class SpaceInvaders():
         ##idée : calculer la distance à l'alien et quantifié la plage de valeurs possible
         xv, yv = self.get_player_X(), self.get_player_Y()
         xa, ya = self.get_indavers_X(), self.get_indavers_Y()
+<<<<<<< HEAD
         #=======================================================================
         # print("Position joueur :", xv, yv)
         # print("Position alien :", xa[0], ya[0])

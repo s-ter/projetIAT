@@ -15,6 +15,7 @@ class QAgent ():
         
         self.alpha = alpha
         self.gamma = gamma
+        self.epsilon_delay = 0.85
         
         self.eps_profile = eps_profile
         self.epsilon = self.eps_profile.initial
@@ -36,17 +37,23 @@ class QAgent ():
                 
                 if not game_over:
                     # Mets à jour la fonction de valeur Q
+                    print(self.epsilon)
+
                     self.updateQ(state, action, reward, next_state)
                     state = next_state
                 else :
                     self.updateQ(state, action, 0, state)
                     print("J'ai perdu")
                     scores.append(score)
+
+            self.epsilon *= self.epsilon_delay
+            print(self.epsilon)
+
         return (scores)
   
 
     def updateQ(self, state, action, reward, next_state):
-        #print(state)
+        ##print(state)
         #print(action)
         self.Q[state][action] = (1. - self.alpha) * self.Q[state][action] + self.alpha * (reward + self.gamma * np.max(self.Q[next_state]))
     
